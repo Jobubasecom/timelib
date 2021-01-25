@@ -41,6 +41,7 @@ int main()
   return 0;
 }
 
+// returns 1 if the year is a leap year, otherwise return 0
 int is_leapyear(int year)
 {
   if (year < 1582 || year > 2400) {
@@ -67,14 +68,9 @@ int is_leapyear(int year)
   return 0;
 }
 
+// calculate what day of the year it is
 int day_of_the_year(int day, int month, int year)
 {
-  int days_in_february = 28;
-  // use leapyear function
-  if (is_leapyear(year)) {
-    days_in_february = 29;
-  }
-
   // for each month add the corresponding days to the total
   int current_day = 0;
   for (int i = 0; i < month; i++) {
@@ -83,18 +79,18 @@ int day_of_the_year(int day, int month, int year)
   // add days entered by user to total
   current_day += day;
 
+  // return the result
   return current_day;
 }
 
+// return the day of any asked month (leap years included)
 int get_days_for_month(int month, int year)
 {
-  int days_in_february = 28;
+  int days_per_month[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   if (is_leapyear(year)) {
-    days_in_february = 29;
+    days_per_month[2] = 29;
   }
-
-  int days_per_month[13] = {0, 31, days_in_february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   return days_per_month[month];
 }
