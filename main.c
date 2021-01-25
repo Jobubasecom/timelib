@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// prototypes
+// prototypes for functions
 int is_leapyear(int year);
 int day_of_the_year(int day, int month, int year);
 int get_days_for_month(int month, int year);
@@ -23,10 +23,10 @@ int main()
 
   // prompt user for input and save in year variable
   do {
+    // prompt user for year, month and day
     printf("Current year: ");
     scanf("%i", &year);
 
-  // prompt user for month and day
     printf("Current month: ");
     scanf("%i", &month);
 
@@ -86,28 +86,36 @@ int day_of_the_year(int day, int month, int year)
 // return the day of any asked month (leap years included)
 int get_days_for_month(int month, int year)
 {
+  // array for info about months, added month 0 with 0 days for easy indexing
   int days_per_month[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+  // change days of 2nd month for leap years
   if (is_leapyear(year)) {
     days_per_month[2] = 29;
   }
 
+  // return resulting amount of days
   return days_per_month[month];
 }
 
+// validate given date, return 0 on invalid dates
 int exists_date(int day, int month, int year)
 {
+  // validate year
   if (year < 1582 || year > 2400) {
     return 0;
   }
 
+  // validate month
   if (month < 1 || month > 12) {
     return 0;
   }
 
+  // validate day (including leap years)
   if (day < 1 || day > get_days_for_month(month, year)) {
     return 0;
   }
 
+  // if the date is valid, return 1
   return 1;
 }
