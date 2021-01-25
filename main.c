@@ -8,7 +8,8 @@
 #include <stdlib.h>
 
 // prototypes
-int leapyear(int year);
+int is_leapyear(int year);
+int day_of_the_year(int day, int month, int year);
 
 int main()
 {
@@ -25,7 +26,6 @@ int main()
     scanf("%i", &year);
   } while(year < 1);
 
-  // use leapyear function
   if (leapyear(year)) {
     days_in_february = 29;
   }
@@ -42,19 +42,18 @@ int main()
     scanf("%i", &day);
   } while(day < 1 || day > days_per_month[month-1]);
 
-  // for each month add the corresponding days to the total
-  for (int i = 0; i < month-1; i++) {
-    current_day += days_per_month[i];
-  }
-  // add days entered by user to total
-  current_day += day;
+  current_day = day_of_the_year(day, month, year);
 
   // tell user what day it is
   printf("Today is day %i of this year\n", current_day);
   return 0;
 }
 
-int leapyear(int year) {
+int is_leapyear(int year) {
+  if (year < 1582 || year > 2400) {
+    return -1;
+  }
+
   // is "year" dividable by 4?
   if (year % 4 == 0) {
     // is "year" dividable by 100?
@@ -73,4 +72,24 @@ int leapyear(int year) {
 
   //otherwise return 0 (false)
   return 0;
+}
+
+int day_of_the_year(int day, int month, int year) {
+  int days_in_february = 28;
+  // use leapyear function
+  if (leapyear(year)) {
+    days_in_february = 29;
+  }
+
+  int days_per_month[12] = {31, days_in_february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+  // for each month add the corresponding days to the total
+  int current_day = 0;
+  for (int i = 0; i < month-1; i++) {
+    current_day += days_per_month[i];
+  }
+  // add days entered by user to total
+  current_day += day;
+
+  return current_day;
 }
