@@ -11,6 +11,7 @@
 int is_leapyear(int year);
 int day_of_the_year(int day, int month, int year);
 int get_days_for_month(int month, int year);
+int exists_date(int day, int month, int year);
 
 int main()
 {
@@ -24,18 +25,14 @@ int main()
   do {
     printf("Current year: ");
     scanf("%i", &year);
-  } while(year < 1);
 
   // prompt user for month and day
-  do {
     printf("Current month: ");
     scanf("%i", &month);
-  } while(month < 1 || month > 12);
 
-  do {
     printf("Current day: ");
     scanf("%i", &day);
-  } while(day < 1 || day > get_days_for_month(month, year));
+  } while(!exists_date(day, month, year));
 
   current_day = day_of_the_year(day, month, year);
 
@@ -44,7 +41,8 @@ int main()
   return 0;
 }
 
-int is_leapyear(int year) {
+int is_leapyear(int year)
+{
   if (year < 1582 || year > 2400) {
     return -1;
   }
@@ -69,7 +67,8 @@ int is_leapyear(int year) {
   return 0;
 }
 
-int day_of_the_year(int day, int month, int year) {
+int day_of_the_year(int day, int month, int year)
+{
   int days_in_february = 28;
   // use leapyear function
   if (is_leapyear(year)) {
@@ -87,14 +86,32 @@ int day_of_the_year(int day, int month, int year) {
   return current_day;
 }
 
-int get_days_for_month(int month, int year) {
+int get_days_for_month(int month, int year)
+{
   int days_in_february = 28;
 
   if (is_leapyear(year)) {
     days_in_february = 29;
   }
 
-  int days_per_month[12] = {0, 31, days_in_february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  int days_per_month[13] = {0, 31, days_in_february, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   return days_per_month[month];
+}
+
+int exists_date(int day, int month, int year)
+{
+  if (year < 1582 || year > 2400) {
+    return 0;
+  }
+
+  if (month < 1 || month > 12) {
+    return 0;
+  }
+
+  if (day < 1 || day > get_days_for_month(month, year)) {
+    return 0;
+  }
+
+  return 1;
 }
