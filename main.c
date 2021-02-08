@@ -12,6 +12,7 @@ int is_leapyear(int year);
 int day_of_the_year(int day, int month, int year);
 int get_days_for_month(int month, int year);
 int exists_date(int day, int month, int year);
+int input_date(int *day, int *month, int *year);
 
 int main()
 {
@@ -21,18 +22,8 @@ int main()
   // declare variables necessary for calculation
   int current_day = 0;
 
-  // prompt user for input and save in year variable
-  do {
-    // prompt user for year, month and day
-    printf("Current year: ");
-    scanf("%i", &year);
-
-    printf("Current month: ");
-    scanf("%i", &month);
-
-    printf("Current day: ");
-    scanf("%i", &day);
-  } while(!exists_date(day, month, year));
+  // use input_date
+  input_date(&day, &month, &year);
 
   current_day = day_of_the_year(day, month, year);
 
@@ -117,5 +108,23 @@ int exists_date(int day, int month, int year)
   }
 
   // if the date is valid, return 1
+  return 1;
+}
+
+int input_date(int *day, int *month, int *year)
+{
+  // prompt user for input and save to the variables that are pointed to
+  do {
+    // prompt user for year, month and day
+    printf("Current year: ");
+    scanf("%i", year);
+
+    printf("Current month: ");
+    scanf("%i", month);
+
+    printf("Current day: ");
+    scanf("%i", day);
+  } while(!exists_date(*day, *month, *year));
+
   return 1;
 }
