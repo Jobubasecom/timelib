@@ -88,6 +88,7 @@ int exists_date(struct date thisDate)
   return 1;
 }
 
+// read input for a date and return date struct
 struct date input_date(void)
 {
     struct date newDate;
@@ -104,5 +105,6 @@ struct date input_date(void)
     scanf("%i", &newDate.day);
   } while(!exists_date(newDate));
 
+  //return date struct
   return newDate;
 }
