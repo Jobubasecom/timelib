@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "timelib.h"
 
 
 // returns 1 if the year is a leap year, otherwise return 0
@@ -36,50 +37,50 @@ int is_leapyear(int year)
 }
 
 // calculate what day of the year it is
-int day_of_the_year(int day, int month, int year)
+int day_of_the_year(struct date thisDate)
 {
   // for each month add the corresponding days to the total
   int current_day = 0;
-  for (int i = 0; i < month; i++) {
-    current_day += get_days_for_month(i, year);
+  for (int i = 0; i < thisDate.month; i++) {
+    current_day += get_days_for_month(thisDate);
   }
   // add days entered by user to total
-  current_day += day;
+  current_day += thisDate.day;
 
   // return the result
   return current_day;
 }
 
 // return the day of any asked month (leap years included)
-int get_days_for_month(int month, int year)
+int get_days_for_month(struct date thisDate)
 {
   // array for info about months, added month 0 with 0 days for easy indexing
   int days_per_month[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   // change days of 2nd month for leap years
-  if (is_leapyear(year)) {
+  if (is_leapyear(thisDate.year)) {
     days_per_month[2] = 29;
   }
 
   // return resulting amount of days
-  return days_per_month[month];
+  return days_per_month[thisDate.month];
 }
 
 // validate given date, return 0 on invalid dates
-int exists_date(int day, int month, int year)
+int exists_date(struct date thisDate)
 {
   // validate year
-  if (year < 1582 || year > 2400) {
+  if (thisDate.year < 1582 || thisDate.year > 2400) {
     return 0;
   }
 
   // validate month
-  if (month < 1 || month > 12) {
+  if (thisDate.month < 1 || thisDate.month > 12) {
     return 0;
   }
 
   // validate day (including leap years)
-  if (day < 1 || day > get_days_for_month(month, year)) {
+  if (thisDate.day < 1 || thisDate.day > get_days_for_month(thisDate)) {
     return 0;
   }
 
@@ -87,20 +88,21 @@ int exists_date(int day, int month, int year)
   return 1;
 }
 
-int input_date(int *day, int *month, int *year)
+struct date input_date(void)
 {
+    struct date newDate;
   // prompt user for input and save to the variables that are pointed to
   do {
     // prompt user for year, month and day
     printf("Current year: ");
-    scanf("%i", year);
+    scanf("%i", &newDate.year);
 
     printf("Current month: ");
-    scanf("%i", month);
+    scanf("%i", &newDate.month);
 
     printf("Current day: ");
-    scanf("%i", day);
-  } while(!exists_date(*day, *month, *year));
+    scanf("%i", &newDate.day);
+  } while(!exists_date(newDate));
 
-  return 1;
+  return newDate;
 }

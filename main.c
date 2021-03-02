@@ -11,16 +11,15 @@
 
 int main()
 {
-  // declare variables "year", "month", "day" and "leap"
-  int year = 0, month = 0, day = 0;
+  struct date thisDate;
 
   // declare variables necessary for calculation
   int current_day = 0;
 
   // use input_date
-  input_date(&day, &month, &year);
+  thisDate = input_date();
 
-  current_day = day_of_the_year(day, month, year);
+  current_day = day_of_the_year(thisDate);
 
   // tell user what day it is
   printf("Today is day %i of this year\n", current_day);
