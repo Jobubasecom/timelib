@@ -11,6 +11,7 @@
 
 int main()
 {
+  // initialise date struct
   struct date thisDate;
 
   // declare variables necessary for calculation
